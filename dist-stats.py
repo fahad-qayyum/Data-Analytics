@@ -1,6 +1,8 @@
 import csv
 import sys
 import argparse
+import numpy as np;
+import matplotlib.pyplot as plt;
 
 
 # to check whether the key exists in the dictionary
@@ -56,5 +58,22 @@ def main():
         print (i, dict[i])                 
     # for val in dict:
     #     print (val + ": " + str(dict[val]))
+
+    # plot the results
+    listObjects = []
+    y = []
+    tup = tuple(listObjects)
+    x = np.arange(len(tub))
+
+    fig, ax = plt.subplots()
+    plt.bar(x, y, align='center', alpha=0.5)
+    plt.xticks(y, tup)
+    plt.xlabel('String')
+    plt.ylabel('String')
+    plt.title('String')
+    fig.autofmt_xdate()
+
+    plt.plot(indices, hinge_loss) 
+    plt.show()
 
 main()
