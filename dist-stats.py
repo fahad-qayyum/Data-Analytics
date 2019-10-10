@@ -1,9 +1,7 @@
 import csv
 import sys
 import argparse
-import numpy as np;
-import matplotlib.pyplot as plt;
-
+import matplotlib.pyplot as plt
 
 # to check whether the key exists in the dictionary
 def checkKey(dict, key): 
@@ -17,7 +15,8 @@ def main():
     file = sys.argv[1]
     city = sys.argv[2]
     dict = {}
-    stars = {}
+    sum = 0.0
+    avg = 0.0
     
     dictList = []
     with open(file, newline='') as csvfile:
@@ -32,14 +31,15 @@ def main():
                     for cat in row['categories'].split(';'):
                         
                         # if category not in list then add in the list as a dict element
-                        if(checkKey(dict, cat)== False):
-                            dict[cat] = [row['review_count'], row['stars']]
+                        if(checkKey(dict, cat) == False):
+                            dict[cat] = [float(row['review_count']), [float(row['stars'])] , 1]
                             
                         # if category in the list then increase the count of it    
-                        else:
-                            reviewsCount = str(int(dict[cat][0]) + int(row['review_count']))
-                            count = str(int(dict[cat][1]) + 1)
-                            dict[cat] = [reviewsCount, count , ]
+                        elif(checkKey(dict, cat) == True): 
+                            dict[cat][0] = float(dict[cat][0]) + float(row['review_count'])
+                            dict[cat][1].append(float(row['stars']))
+                            dict[cat][2] = float(dict[cat][2]) + 1
+
                 
                 # if restaurant is not a category in the row
                 else:
@@ -53,27 +53,39 @@ def main():
         if cat in dict:
             del dict[cat]
     del dict['Restaurants']        
-    #list(reversed(sorted(dictList.keys())))
-    for i in sorted(dict, key=dict.get, reverse=True):
-        print (i, dict[i])                 
-    # for val in dict:
-    #     print (val + ": " + str(dict[val]))
 
-    # plot the results
-    listObjects = []
-    y = []
-    tup = tuple(listObjects)
-    x = np.arange(len(tub))
 
+    sortedDict = {}
+
+    for item in sorted(dict, key=dict.get, reverse=True):
+        sum = 0.0
+        for element in dict[item][1]:
+            sum = sum + element
+ 
+        avg = sum/dict[item][2]
+        sortedDict[item] = int(dict[item][0])           
+        # print (item, ":", int(dict[item][0]) , ":%.2f" % avg) 
+
+    
+
+
+
+
+    x = list(sortedDict)[:10]
+    y = list(sortedDict.values())[:10]
+
+    # tup = tuple(listObjects)
+    # x = np.arange(len(tub))
     fig, ax = plt.subplots()
     plt.bar(x, y, align='center', alpha=0.5)
-    plt.xticks(y, tup)
-    plt.xlabel('String')
-    plt.ylabel('String')
-    plt.title('String')
-    fig.autofmt_xdate()
-
-    plt.plot(indices, hinge_loss) 
+    #plt.xticks(y, x)
+    plt.xlabel('Category')
+    plt.ylabel('Reviews')
+    plt.title('Top 10 Restaurants Category by reviews')
+    #fig.autofmt_xdate()
+    #plt.plot(x, y) 
     plt.show()
+   
 
-main()
+if __name__ == "__main__":
+    main()
