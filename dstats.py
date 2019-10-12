@@ -67,8 +67,12 @@ def avgNumOfReviewsBus(file, city):
     return sum  
 
 def main():
+
+    # getting input from the terminal
     file = sys.argv[1]
     city = sys.argv[2]
+
+    # each part calls the respectative method
     resCount = numOfRestaurants(file, city)
     busCount = numOfBus(file,city)
     avgBusStars =  avgStars(file, city)/busCount
@@ -76,11 +80,13 @@ def main():
     avgBusReviews = avgNumOfReviews(file,city)/busCount
     avgResReviews = avgNumOfReviewsBus(file, city)/resCount
     
-    print("The number of Restaurants in " , city , " is: " , resCount)
-    print("The number of Business in ", city, " is: ", busCount)
-    print("The average number of stars of Business in ", city, " is: ", avgBusStars)
-    print("The average number of stars of Restaurants in ", city, " is: ", avgResStars)
-    print("The average number of reviews for all business in ", city, " is: ", avgBusReviews)
-    print("The average number of reviews for all restaurants in ", city, " is: ", avgResReviews)
+    # printing each part in the required format
+    print("numOfBus:", busCount, " in ", city)
+    print("avgStars:", avgBusStars, " in ", city)
+    print("numOfRestaurants: " , resCount , " in " , city)
+    print("avgStarsRestaurants: ", avgResStars, " in ", city)
+    print("avgNumOfReviews: ", avgBusReviews, " in ", city)
+    print("avgNumOfReviewsBus: ", avgResReviews, " in ", city)
 
-main()
+if __name__ == "__main__":
+    main()
